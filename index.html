@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neeraj — D365 Commerce & POS Lead</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #14171f;
+      --border: #1e2330;
+      --accent: #e8824a;
+      --accent2: #5b8dee;
+      --text: #d4d8e8;
+      --muted: #6b7394;
+      --heading: #f0f2fa;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── LAYOUT ── */
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 28px 100px;
+      position: relative; z-index: 1;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+
+    .header-left h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      color: var(--heading);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .header-left h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .tagline {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .bio {
+      font-size: 14.5px;
+      color: var(--text);
+      max-width: 560px;
+      line-height: 1.75;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      text-decoration: none;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .links a:hover { border-color: var(--accent2); color: #fff; }
+
+    .header-badge {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 22px;
+      text-align: right;
+      min-width: 180px;
+    }
+    .header-badge .loc {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .header-badge .loc-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--heading);
+    }
+    .avail {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #3ecf8e;
+      padding: 3px 9px;
+      background: rgba(62,207,142,0.1);
+      border-radius: 20px;
+      border: 1px solid rgba(62,207,142,0.25);
+    }
+
+    /* ── SECTION ── */
+    section { margin-bottom: 56px; }
+
+    .sec-label {
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sec-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── EXPERIENCE CARD ── */
+    .exp-card {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 0 28px;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .exp-card:first-of-type { border-top: 1px solid var(--border); }
+
+    .exp-meta { padding-top: 3px; }
+    .exp-date {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .exp-company {
+      font-size: 13px;
+      color: var(--accent2);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .exp-role {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem;
+      color: var(--heading);
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
+    .exp-desc {
+      font-size: 13.5px;
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    .exp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      padding: 3px 9px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--muted);
+    }
+    .tag.hot {
+      background: rgba(232,130,74,0.08);
+      border-color: rgba(232,130,74,0.25);
+      color: var(--accent);
+    }
+
+    /* ── SKILLS GRID ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .skill-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px 18px;
+    }
+    .skill-block h4 {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .skill-list {
+      list-style: none;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 2;
+    }
+    .skill-list li::before {
+      content: '→ ';
+      color: var(--muted);
+    }
+
+    /* ── HIGHLIGHTS / KEY WINS ── */
+    .wins-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .win-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .win-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--accent);
+    }
+    .win-card h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--heading);
+      margin-bottom: 6px;
+    }
+    .win-card p {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── CERTS ── */
+    .cert-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .cert {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer p { font-size: 12px; color: var(--muted); }
+    footer a { color: var(--accent2); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      header { grid-template-columns: 1fr; }
+      .header-badge { text-align: left; }
+      .exp-card { grid-template-columns: 1fr; gap: 6px; }
+      .exp-meta { display: flex; gap: 14px; align-items: baseline; }
+    }
+
+    /* ── FADE-IN ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .wrap > * {
+      animation: fadeUp 0.55s ease both;
+    }
+    header              { animation-delay: 0.05s; }
+    section:nth-child(2){ animation-delay: 0.15s; }
+    section:nth-child(3){ animation-delay: 0.25s; }
+    section:nth-child(4){ animation-delay: 0.35s; }
+    section:nth-child(5){ animation-delay: 0.45s; }
+    section:nth-child(6){ animation-delay: 0.55s; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ── HEADER ── -->
+  <header>
+    <div class="header-left">
+      <p class="tagline">D365 Commerce &amp; POS · Retail Tech · Solutions Architecture</p>
+      <h1>Neeraj<br><em>Sharma</em></h1>
+      <p class="bio">
+        Senior Development Lead and Retail Technology Architect with 15+ years delivering
+        Microsoft Dynamics 365 Commerce &amp; POS solutions across fuel retail, fashion, and
+        enterprise sectors. Deep expertise in forecourt controller integrations, payment systems,
+        loyalty APIs, and large-scale POS extension development — from hands-on engineering to
+        solution design and team leadership.
+      </p>
+      <div class="links">
+        <a href="https://www.linkedin.com/in/" target="_blank">↗ LinkedIn</a>
+        <a href="https://github.com/" target="_blank">↗ GitHub</a>
+        <a href="mailto:neeraj@example.com">✉ Email</a>
+      </div>
+    </div>
+    <div class="header-badge">
+      <p class="loc">Based in</p>
+      <p class="loc-name">Melbourne, VIC<br>Australia</p>
+      <span class="avail">Open to Roles</span>
+    </div>
+  </header>
+
+  <!-- ── KEY WINS ── -->
+  <section>
+    <p class="sec-label">Career Highlights</p>
+    <div class="wins-grid">
+      <div class="win-card">
+        <h4>Prepay Fuel Platform — OTR Group</h4>
+        <p>Architected and led end-to-end prepay transaction flows across POS, forecourt controller, and hardware station layers, including overflow recovery, race-condition remediation, and dual-limit validation.</p>
+      </div>
+      <div class="win-card">
+        <h4>Loyalty API Integration</h4>
+        <p>Designed and built OTR Loyalty Service integration (Snapshot/Settle), Eagle Eye and Flybuys connectors, basket adjudication, and credential resolution — full C# .NET implementation with interactive prototypes.</p>
+      </div>
+      <div class="win-card">
+        <h4>Viva Energy Phase 1 Prepay</h4>
+        <p>Delivered store-level time-window restrictions, grade-level prepay limits, POS caching logic, and validation architecture for national fuel retailer prepay launch.</p>
+      </div>
+      <div class="win-card">
+        <h4>Fusion/NEXO Payment Log Analyser</h4>
+        <p>Built a multi-terminal payment log parsing &amp; analytics tool (FusionLog-Analyser v3), enabling rapid transaction forensics across 700+ OTR sites.</p>
+      </div>
+      <div class="win-card">
+        <h4>Store Commerce Fleet Remediation</h4>
+        <p>Designed a Chrome DevTools Protocol / WebView2 localStorage cleanup utility for bulk POS register remediation across a large retail estate, eliminating manual store-by-store intervention.</p>
+      </div>
+      <div class="win-card">
+        <h4>RTA / D365 Returns Architecture</h4>
+        <p>Prototyped a "Return to DC" stock management system covering RPOs, transfer orders, cross-dock ASN flows, SSCC barcoding, and D365 staging table integration.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ── -->
+  <section>
+    <p class="sec-label">Experience</p>
+
+    <div class="exp-card">
+      <div class="exp-meta">
+        <p class="exp-date">2019 – Present</p>
+        <p class="exp-company">OTR Group</p>
+      </div>
+      <div>
+        <p class="exp-role">Development Lead — D365 Commerce &amp; POS</p>
+        <p class="exp-desc">
+          Leading POS extension development and forecourt integration for one of Australia's
+          largest fuel &amp; convenience retailers (~700 sites). Responsible for prepay fuel
+          transaction architecture, payment terminal integration (Fusion/NEXO protocol), loyalty
+          platform APIs, and hardware-station command sequencing. Defined formal functional
+          specifications, mentored developers, and drove cross-team delivery with POS, D365,
+          and infrastructure workstreams.
+        </p>
+        <div class="exp-tags">
+          <span class="tag hot">D365 Commerce</span>
+          <span class="tag hot">POS Extensions</span>
+          <span class="tag hot">C# .NET</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Forecourt Controllers</span>
+          <span class="tag">NEXO/Fusion</span>
+          <span class="tag">Loyalty APIs</span>
+          <span class="tag">Azure DevOps</span>
+          <span class="tag">Fuel Retail</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-meta">
+        <p class="exp-date">~2016 – 2019</p>
+        <p class="exp-company">Microsoft</p>
+      </div>
+      <div>
+        <p class="exp-role">D365 / AX Retail Consultant</p>
+        <p class="exp-desc">
+          Delivered Dynamics AX / D365 Retail implementations for enterprise customers across
+          diverse verticals. Specialised in POS customisation, channel configuration, and
+          retail process design.
+        </p>
+        <div class="exp-tags">
+          <span class="tag hot">Dynamics AX</span>
+          <span class="tag hot">D365 Retail</span>
+          <span class="tag">Enterprise Delivery</span>
+          <span class="tag">Solution Architecture</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-meta">
+        <p class="exp-date">~2014 – 2016</p>
+        <p class="exp-company">Jeanswest</p>
+      </div>
+      <div>
+        <p class="exp-role">Retail Systems Lead</p>
+        <p class="exp-desc">
+          Managed D365 / AX retail platform across Jeanswest's national store network, covering
+          POS operations, inventory management, and system support.
+        </p>
+        <div class="exp-tags">
+          <span class="tag">D365 Retail</span>
+          <span class="tag">Fashion Retail</span>
+          <span class="tag">POS Operations</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-meta">
+        <p class="exp-date">Earlier</p>
+        <p class="exp-company">DXC Technology / NEC</p>
+      </div>
+      <div>
+        <p class="exp-role">Senior Consultant — Retail ERP</p>
+        <p class="exp-desc">
+          Delivered ERP and retail technology projects across multiple enterprise clients.
+          Built deep technical foundations in Microsoft Dynamics AX, systems integration,
+          and retail process optimisation.
+        </p>
+        <div class="exp-tags">
+          <span class="tag">ERP Delivery</span>
+          <span class="tag">Systems Integration</span>
+          <span class="tag">Retail Tech</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── SKILLS ── -->
+  <section>
+    <p class="sec-label">Technical Skills</p>
+    <div class="skills-grid">
+      <div class="skill-block">
+        <h4>Platform</h4>
+        <ul class="skill-list">
+          <li>Microsoft D365 Commerce</li>
+          <li>D365 Store Commerce (POS)</li>
+          <li>MPOS / CPOS Extension SDK</li>
+          <li>Hardware Station APIs</li>
+          <li>Channel DB / CDX</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <h4>Languages</h4>
+        <ul class="skill-list">
+          <li>C# / .NET</li>
+          <li>TypeScript / JavaScript</li>
+          <li>T-SQL / X++</li>
+          <li>PowerShell</li>
+          <li>HTML / CSS</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <h4>Integrations</h4>
+        <ul class="skill-list">
+          <li>Fusion / NEXO Protocol</li>
+          <li>Forecourt Controllers</li>
+          <li>Eagle Eye Loyalty</li>
+          <li>Flybuys API</li>
+          <li>Azure Service Bus</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <h4>DevOps &amp; Tooling</h4>
+        <ul class="skill-list">
+          <li>Azure DevOps</li>
+          <li>GitHub</li>
+          <li>Azure Static Web Apps</li>
+          <li>Chrome DevTools Protocol</li>
+          <li>WebView2</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <h4>Architecture</h4>
+        <ul class="skill-list">
+          <li>Solution Design &amp; FDS</li>
+          <li>Multi-site Retail Scale</li>
+          <li>Payment Systems Design</li>
+          <li>Loyalty Platform Design</li>
+          <li>API Architecture</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <h4>Domain</h4>
+        <ul class="skill-list">
+          <li>Fuel Retail Operations</li>
+          <li>Forecourt Management</li>
+          <li>Prepay / Postpay Flows</li>
+          <li>Fashion Retail (Jeanswest)</li>
+          <li>Convenience Retail</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CERTS ── -->
+  <section>
+    <p class="sec-label">Certifications &amp; Recognition</p>
+    <div class="cert-list">
+      <span class="cert">MB-340 — D365 Commerce Functional Consultant</span>
+      <span class="cert">Microsoft Dynamics AX Retail</span>
+      <span class="cert">Azure Fundamentals (AZ-900)</span>
+      <span class="cert">~15 Years D365 Retail Practice</span>
+      <span class="cert">Avanade Lead Architect Candidate</span>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p>© Neeraj Sharma · Melbourne, VIC, Australia</p>
+    <p>Built with HTML &amp; CSS · Hosted on <a href="https://pages.github.com" target="_blank">GitHub Pages</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
